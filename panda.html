@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panda Browser</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #07130f;
+    --panel: #0d2119;
+    --panel-2: #123326;
+    --green: #1f7a4d;
+    --green-light: #56d68b;
+    --text: #eff8f1;
+    --muted: #9db8a7;
+    --border: #244b38;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; color: var(--text);
+    background: radial-gradient(ellipse at top, #153d2b 0%, var(--bg) 58%);
+    font-family: "Segoe UI", Arial, sans-serif;
+  }
+  .topbar {
+    display: flex; align-items: center; gap: 12px; padding: 13px 18px;
+    background: rgba(5, 16, 11, .88); border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; backdrop-filter: blur(12px);
+  }
+  .logo {
+    width: 39px; height: 39px; border-radius: 13px; display: grid; place-items: center;
+    background: linear-gradient(145deg, #39a86b, #145333); font-size: 23px;
+    box-shadow: 0 5px 18px #0005;
+  }
+  .brand { font-size: 19px; font-weight: 750; letter-spacing: .2px; }
+  .brand span { color: var(--green-light); }
+  .tag { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .spacer { flex: 1; }
+  .status { color: var(--muted); font-size: 12px; }
+  main { width: min(850px, calc(100% - 32px)); margin: 9vh auto 40px; text-align: center; }
+  .mascot { font-size: 58px; filter: drop-shadow(0 8px 15px #0007); margin-bottom: 12px; }
+  h1 { font-size: clamp(34px, 6vw, 52px); margin: 0; letter-spacing: -1.5px; }
+  h1 span { color: var(--green-light); }
+  .subtitle { color: var(--muted); margin: 12px 0 30px; font-size: 15px; }
+  .search {
+    display: flex; align-items: center; gap: 10px; padding: 8px;
+    background: #10271d; border: 1px solid #326449; border-radius: 17px;
+    box-shadow: 0 16px 45px #0005; transition: border .2s, box-shadow .2s;
+  }
+  .search:focus-within { border-color: var(--green-light); box-shadow: 0 0 0 3px #56d68b20, 0 16px 45px #0005; }
+  .search-icon { padding-left: 10px; color: var(--green-light); font-size: 20px; }
+  input {
+    flex: 1; min-width: 0; padding: 13px 3px; border: 0; outline: 0;
+    color: var(--text); background: transparent; font-size: 16px;
+  }
+  input::placeholder { color: #8ca697; }
+  button {
+    border: 0; border-radius: 11px; padding: 12px 18px; background: var(--green);
+    color: white; font-weight: 700; cursor: pointer; transition: background .2s, transform .2s;
+  }
+  button:hover { background: #26945c; transform: translateY(-1px); }
+  .quick-title { margin: 35px 0 14px; text-align: left; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1.6px; }
+  .shortcuts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .shortcut {
+    padding: 18px 8px; border: 1px solid var(--border); border-radius: 15px;
+    background: #0b1e16cc; color: var(--text); text-decoration: none; min-height: 104px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 9px;
+    transition: transform .2s, border-color .2s, background .2s;
+  }
+  .shortcut:hover { transform: translateY(-3px); border-color: #3d9464; background: #123326; }
+  .shortcut .emoji { font-size: 25px; }
+  .shortcut .name { font-size: 13px; font-weight: 650; }
+  .note { margin-top: 32px; color: #789887; font-size: 12px; line-height: 1.6; }
+  footer { text-align: center; color: #62816f; font-size: 11px; padding: 18px; }
+  @media (max-width: 520px) {
+    main { margin-top: 6vh; }
+    .shortcuts { grid-template-columns: repeat(2, 1fr); }
+    .status { display: none; }
+    .search button { padding: 12px; }
+  }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo" aria-hidden="true">🐼</div>
+    <div>
+      <div class="brand">Panda<span> Browser</span></div>
+      <div class="tag">A calmer corner of the web</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="status">Dark forest theme</div>
+  </header>
+
+  <main>
+    <div class="mascot" aria-hidden="true">🐼</div>
+    <h1>Browse your <span>world.</span></h1>
+    <p class="subtitle">A little greener. A little calmer. Ready when you are.</p>
+
+    <form class="search" id="searchForm">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <input id="searchInput" type="text" placeholder="Search Google or enter a website…" aria-label="Search Google or enter a website" autocomplete="off" autofocus>
+      <button type="submit">Search</button>
+    </form>
+
+    <div class="quick-title">Quick links</div>
+    <div class="shortcuts">
+      <a class="shortcut" href="https://www.google.com"><span class="emoji">🔎</span><span class="name">Google</span></a>
+      <a class="shortcut" href="https://www.youtube.com"><span class="emoji">▶️</span><span class="name">YouTube</span></a>
+      <a class="shortcut" href="https://www.wikipedia.org"><span class="emoji">🌐</span><span class="name">Wikipedia</span></a>
+      <a class="shortcut" href="https://www.reddit.com"><span class="emoji">💬</span><span class="name">Reddit</span></a>
+    </div>
+
+    <p class="note">Panda is a custom start page, not a standalone browser engine.<br>
+    Save this file and open it in your browser to use the themed search page.</p>
+  </main>
+  <footer>🐼 Panda Browser · Dark Green Edition</footer>
+
+<script>
+  const form = document.getElementById('searchForm');
+  const input = document.getElementById('searchInput');
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    const query = input.value.trim();
+    if (!query) {
+      input.focus();
+      return;
+    }
+    // If it looks like a URL, open it; otherwise search Google.
+    const looksLikeUrl = /^(https?:\/\/)|^([a-z0-9-]+\.)+[a-z]{2,}(\/.*)?$/i.test(query);
+    const destination = looksLikeUrl
+      ? (query.startsWith('http') ? query : 'https://' + query)
+      : 'https://www.google.com/search?q=' + encodeURIComponent(query);
+    window.location.href = destination;
+  });
+</script>
+</body>
+</html>
