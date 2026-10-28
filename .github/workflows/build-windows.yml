@@ -1,0 +1,33 @@
+
+name: Build Panda Browser for Windows
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Check out Panda Browser
+        uses: actions/checkout@v4
+
+      - name: Install .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Build Windows executable
+        run: dotnet publish PandaBrowser.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish
+
+      - name: Include Panda start page
+        shell: pwsh
+        run: Copy-Item panda.html publish/panda.html -Force
+
+      - name: Upload Panda Browser build
+        uses: actions/upload-artifact@v4
+        with:
+          name: PandaBrowser-Windows-x64
+          path: publish/
+          if-no-files-found: error
